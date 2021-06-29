@@ -1,0 +1,105 @@
+---
+title: "Proyecto_Final"
+author: "Sofia De León"
+date: "28/6/2021"
+output: pdf_document
+---
+
+```{r, echo = FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(forcats)
+```
+
+# Leemmos los datos
+
+```{r, echo = FALSE}
+felicidad <- readr::read_csv("https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-08-07/felicidad.csv")
+```
+
+# Introducción
+
+
+
+
+
+
+
+# Datos
+
+
+
+
+
+
+
+
+# Análisis exploratorio 
+
+
+# Puntaje de felicidad para algunos paises de Sudamérica a lo largo de los años en grafico de puntos y lineas
+
+```{r, echo = TRUE}
+felicidad %>%
+     group_by(pais) %>% 
+     summarise(escalera_vida, anio) %>% 
+     filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")) %>% 
+     ggplot(aes(x = anio, y = escalera_vida)) + geom_point() + geom_line() + facet_wrap(vars(pais)) + labs(x = "Añio", y = "Puntaje de Felicidad")
+```
+
+
+# Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de puntos
+
+```{r, echo = TRUE}
+felicidad %>%
+     group_by(pais) %>% 
+      summarise(media_escalera_vida = mean(escalera_vida)) %>% 
+    filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")) %>% 
+    ggplot(aes(x = fct_reorder(pais, media_escalera_vida), y = media_escalera_vida)) + geom_point() + labs(x = "País", y = "Puntaje promedio de felicidad")
+```
+
+# Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de barras
+
+```{r, echo = TRUE}
+felicidad %>%
+      group_by(pais) %>% 
+       summarise(media_escalera_vida = mean(escalera_vida)) %>% 
+     filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")) %>% 
+     ggplot(aes(x = reorder(pais, -media_escalera_vida), y = media_escalera_vida)) + geom_bar(stat = "identity") + labs(x = "País", y = "Puntaje promedio de felicidad")
+```
+
+# El país que tiene más afecto negativo(preocupación, tristeza, enojo) y en que año
+
+
+```{r, echo = TRUE}
+max_negativo <- felicidad %>%
+     group_by(pais) %>% 
+     summarise(max_afecto_negativo = max(afecto_negativo, na.rm = TRUE)) %>% 
+     arrange(desc(max_afecto_negativo))
+```
+
+```{r, echo = TRUE}
+felicidad %>% 
+     filter(afecto_negativo == max(max_negativo[["max_afecto_negativo"]]))  %>% 
+         select(pais, anio)
+```
+
+
+
+
+
+
+
+
+
+
+
+# Descripción de la aplicación Shiny 
+
+
+
+
+# Comentarios finales
+
+
