@@ -85,15 +85,29 @@ felicidad %>%
          select(pais, anio)
 ```
 
+# ¿Existe alguna relación entre Felicidad-Pais?
 
+```{r, echo = TRUE}
+fel_pai <- felicidad %>% 
+  select(pais,anio,escalera_vida,log_pib,expectativa_vida) %>% 
+  filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela"))
+```
 
+```{r, echo = TRUE}
+ggplot(fel_pai) + geom_boxplot(aes(x=pais,y=escalera_vida)) + 
+  labs(title ="Asociacion entre Pais-Felicidad", x = "Paises", y = "Grado de Felicidad")
 
+```
+# ¿Existe alguna relación entre Felicidad-PBI?
 
+```{r, echo = TRUE}
+lm( escalera_vida ~ log_pib, data = fel_pai )
 
+ggplot(fel_pai) + geom_point(aes(x=log_pib,y=escalera_vida)) + 
+  labs(title ="Asociacion entre PIB y Felicidad", x = "Grado de Felicidad", y = "PIB") +
+  geom_abline (intercept = -1.6678 , slope = 0.8223 ,col='blue',lwd=1)
 
-
-
-
+```
 
 # Descripción de la aplicación Shiny 
 
