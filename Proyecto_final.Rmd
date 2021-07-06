@@ -13,17 +13,17 @@ output: pdf_document
 
 
 
-# Datos
+## Datos
 
-## Los datos que vamos a utilizar en este proyecto son de [Datos sobre felicidad](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-08-07) y su fuente es de [World Happines Report 2019](https://worldhappiness.report/ed/2019/)
+Los datos que vamos a utilizar en este proyecto son de [Datos sobre felicidad](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-08-07) y su fuente es de [World Happines Report 2019](https://worldhappiness.report/ed/2019/)
 
-## Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones, una variable de tipo character la cual corresponde a "pais" y 16 variables de tipo numerico las cuales son año (que va desde 2005 hasta 2018), escalera_vida (que corresponde al puntaje de felicidad), log_pib (logaritmo del Producto Interno Bruto), soporte_social (Calidad del soporte social), expectativa_vida (Expectativa de vida saludable), libertad (Libertad para tomar decisiones de vida), generosidad (Se mide a partir de las variables PIB per cápita y la pregunta sobre si se ha donado dinero a una institución de caridad), Percepcion_corrupcion (Percepción de la corrupción), afecto_positivo (medido a partir de la respuesta a preguntas sobre felicidad, risa y gozo), afecto_negativo (medido a partir de la respuesta a preguntas sobre preocupación, tristeza y enojo), confianza (Confianza en el gobierno), calidad_democracia (Calidad de la democracia), calidad_entrega (Calidad de la entrega de servicios por parte del gobierno), de_escalera_pais_anio (Desviación estándar por país y año del puntaje de felicidad o Escalera de Vida), gini_banco_mundial (Gini según el Banco Munial), gini_banco_mundial_promedio (Promedio Gini para el período 2000-2016). 
+Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones, una variable de tipo character la cual corresponde a "pais" y 16 variables de tipo numerico las cuales son año (que va desde 2005 hasta 2018), escalera_vida (que corresponde al puntaje de felicidad), log_pib (logaritmo del Producto Interno Bruto), soporte_social (Calidad del soporte social), expectativa_vida (Expectativa de vida saludable), libertad (Libertad para tomar decisiones de vida), generosidad (Se mide a partir de las variables PIB per cápita y la pregunta sobre si se ha donado dinero a una institución de caridad), Percepcion_corrupcion (Percepción de la corrupción), afecto_positivo (medido a partir de la respuesta a preguntas sobre felicidad, risa y gozo), afecto_negativo (medido a partir de la respuesta a preguntas sobre preocupación, tristeza y enojo), confianza (Confianza en el gobierno), calidad_democracia (Calidad de la democracia), calidad_entrega (Calidad de la entrega de servicios por parte del gobierno), de_escalera_pais_anio (Desviación estándar por país y año del puntaje de felicidad o Escalera de Vida), gini_banco_mundial (Gini según el Banco Munial), gini_banco_mundial_promedio (Promedio Gini para el período 2000-2016). 
 
 
 # Análisis exploratorio 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, include=FALSE}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
@@ -31,28 +31,28 @@ library(forcats)
 ```
 
 
-# Leemos los datos
+## Leemos los datos
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, include=FALSE}
 felicidad <- readr::read_csv("https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-08-07/felicidad.csv")
 ```
 
 
-# Puntaje de felicidad para algunos paises de Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú, Uruguay, Venezuela) a lo largo de los años en grafico de puntos y lineas
+### *Puntaje de felicidad para algunos paises de Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú, Uruguay, Venezuela) a lo largo de los años en grafico de puntos y lineas:*
 
-```{r, echo = TRUE, fig.cap = "Puntaje de felicidad a lo largo de los años para algunos países de Sudamérica"}
+```{r, echo = TRUE, message=FALSE, fig.cap = "Puntaje de felicidad a lo largo de los años para algunos países de Sudamérica"}
 felicidad %>%
      group_by(pais) %>% 
      summarise(escalera_vida, anio) %>% 
      filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")) %>% 
-     ggplot(aes(x = anio, y = escalera_vida)) + geom_point() + geom_line() + facet_wrap(vars(pais)) + labs(x = "Añio", y = "Puntaje de Felicidad")
+     ggplot(aes(x = anio, y = escalera_vida)) + geom_point() + geom_line() + facet_wrap(vars(pais)) + labs(x = "Año", y = "Puntaje de Felicidad")
 ```
 
-## En estas figuras podemos observar que a lo largo de los años, estos países han tendio puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siepre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7. 
+En estas figuras podemos observar que a lo largo de los años, estos países han tendio puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siepre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7. 
 
 
 
-# Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de puntos
+### *Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de puntos:*
 
 ```{r, echo = TRUE, fig.cap = "Puntaje promedio de felcidad para algunos países de Sudamérica"}
 felicidad %>%
@@ -62,9 +62,9 @@ felicidad %>%
     ggplot(aes(x = fct_reorder(pais, media_escalera_vida), y = media_escalera_vida)) + geom_point() + labs(x = "País", y = "Puntaje promedio de felicidad")
 ```
 
-# Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de barras
+### *Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de barras:*
 
-```{r, echo = TRUE, fig.cap = "Puntaje promedio de felcidad para algunos países de Sudamérica"}
+```{r, echo = TRUE, fig.cap = "Puntaje promedio de felicidad para algunos países de Sudamérica"}
 felicidad %>%
       group_by(pais) %>% 
        summarise(media_escalera_vida = mean(escalera_vida)) %>% 
@@ -73,10 +73,10 @@ felicidad %>%
 ```
 
 
-## En esta figura podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil, mientras que el que tiene menor puntaje de felicidad corresponde a Paraguay. 
+En esta figura podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil, mientras que el que tiene menor puntaje de felicidad corresponde a Paraguay. 
 
 
-# El país que tiene más afecto negativo (preocupación, tristeza, enojo) y en que año
+### *El país que tiene más afecto negativo (preocupación, tristeza, enojo) y en que año:*
 
 
 ```{r, echo = FALSE}
@@ -93,28 +93,29 @@ felicidad %>%
 ```
 
 
-## En este caso podemos observar que el país que tiene más afecto negativo, esto es, personas con más preocupación, tristeza y enojo es Syria y lo obtuvo en el año 2012. 
+En este caso podemos observar que el país que tiene más afecto negativo, esto es, personas con más preocupación, tristeza y enojo es Syria y lo obtuvo en el año 2012. 
 
-# ¿Existe alguna relación entre Felicidad-Pais?
+### *¿Existe alguna relación entre Felicidad-Pais?*
 
 ```{r, echo = FALSE}
 fel_pais <- felicidad %>% 
   select(pais, anio, escalera_vida, log_pib, expectativa_vida) %>% 
   filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela"))
-```
-
-```{r, echo = FALSE}
-ggplot(fel_pais) + geom_boxplot(aes(x=pais,y=escalera_vida)) + 
-  labs(title ="Asociacion entre Pais-Felicidad", x = "Paises", y = "Grado de Felicidad")
 
 ```
 
+```{r, echo = FALSE, fig.cap = 'Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de caja'}
+ggplot(fel_pais) + geom_boxplot(aes(x=reorder(pais,escalera_vida),y=escalera_vida)) + 
+  labs(x = "Paises", y = "Grado de Felicidad")
+
+```
+En esta figura al igual que en el grafico de barras podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil y el que tiene menor puntaje en promedio es Paraguay; pero lo que no podemos visualizar en el grafico de barras es que Venezuela en algunos años fue el pais con menor y a su vez con mayor felicidad de Sudamerica.
 
 ## En esta figura podemos observar que...
 
-# ¿Existe alguna relación entre Felicidad-PBI?
+### *¿Existe alguna relación entre Felicidad-PBI?*
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, message=FALSE}
 lm( escalera_vida ~ log_pib, data = fel_pais )
 
 ggplot(fel_pais) + geom_point(aes(x = log_pib, y = escalera_vida)) + 
@@ -124,7 +125,7 @@ ggplot(fel_pais) + geom_point(aes(x = log_pib, y = escalera_vida)) +
 ```
 
 
-## En esta figura observamos que hay una relación entre el PIB y el puntaje de felicidad, a mayor PIB; mayor puntaje de felicidad. 
+En esta figura observamos que hay una relación entre el PIB y el puntaje de felicidad, a mayor PIB; mayor puntaje de felicidad. 
 
 # Descripción de la aplicación Shiny 
 
