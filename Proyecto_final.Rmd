@@ -1,6 +1,6 @@
 ---
 title: "Proyecto_Final"
-author: "Sofia De León"
+author: "Sofia De León, Ignacio Campón, Jonathan Pirez, María de Freitas"
 date: "28/6/2021"
 output: pdf_document
 ---
@@ -31,16 +31,16 @@ library(forcats)
 ```
 
 
-# Leemmos los datos
+# Leemos los datos
 
-```{r, echo = FALSE}
+```{r, echo = TRUE}
 felicidad <- readr::read_csv("https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-08-07/felicidad.csv")
 ```
 
 
 # Puntaje de felicidad para algunos paises de Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú, Uruguay, Venezuela) a lo largo de los años en grafico de puntos y lineas
 
-```{r, echo = FALSE, fig.cap = "Puntaje de felicidad para algunos paises de Sudamérica a lo largo de los años"}
+```{r, echo = TRUE, fig.cap = "Puntaje de felicidad a lo largo de los años para algunos países de Sudamérica"}
 felicidad %>%
      group_by(pais) %>% 
      summarise(escalera_vida, anio) %>% 
@@ -54,7 +54,7 @@ felicidad %>%
 
 # Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de puntos
 
-```{r, echo = FALSE, fig.cap = "Puntaje promedio de felicidad para algunos paises de Sudamérica"}
+```{r, echo = TRUE, fig.cap = "Puntaje promedio de felcidad para algunos países de Sudamérica"}
 felicidad %>%
      group_by(pais) %>% 
       summarise(media_escalera_vida = mean(escalera_vida)) %>% 
@@ -64,7 +64,7 @@ felicidad %>%
 
 # Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de barras
 
-```{r, echo = FALSE, fig.cap = "Puntaje promedio de felicidad para algunos paises de Sudamérica}
+```{r, echo = TRUE, fig.cap = "Puntaje promedio de felcidad para algunos países de Sudamérica"}
 felicidad %>%
       group_by(pais) %>% 
        summarise(media_escalera_vida = mean(escalera_vida)) %>% 
@@ -93,7 +93,7 @@ felicidad %>%
 ```
 
 
-## En este caso podemos observar que el país que tiene más afecto negativo es Syria y lo obtuvo en el año 2012. 
+## En este caso podemos observar que el país que tiene más afecto negativo, esto es, personas con más preocupación, tristeza y enojo es Syria y lo obtuvo en el año 2012. 
 
 # ¿Existe alguna relación entre Felicidad-Pais?
 
@@ -115,9 +115,9 @@ ggplot(fel_pais) + geom_boxplot(aes(x=pais,y=escalera_vida)) +
 # ¿Existe alguna relación entre Felicidad-PBI?
 
 ```{r, echo = TRUE}
-lm( escalera_vida ~ log_pib, data = fel_pai )
+lm( escalera_vida ~ log_pib, data = fel_pais )
 
-ggplot(fel_pai) + geom_point(aes(x = log_pib, y = escalera_vida)) + 
+ggplot(fel_pais) + geom_point(aes(x = log_pib, y = escalera_vida)) + 
   labs(title ="Asociacion entre PIB y Felicidad", x = "Grado de Felicidad", y = "PIB") +
   geom_abline (intercept = -1.6678, slope = 0.8223, col = 'blue',lwd = 1)
 
@@ -127,6 +127,11 @@ ggplot(fel_pai) + geom_point(aes(x = log_pib, y = escalera_vida)) +
 ## En esta figura observamos que hay una relación entre el PIB y el puntaje de felicidad, a mayor PIB; mayor puntaje de felicidad. 
 
 # Descripción de la aplicación Shiny 
+
+
+
+
+
 
 
 
