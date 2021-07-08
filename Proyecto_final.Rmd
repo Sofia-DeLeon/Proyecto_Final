@@ -3,21 +3,22 @@ title: "Proyecto_Final"
 author: "Sofia De León, Ignacio Campón, Jonathan Pirez, María de Freitas"
 date: "28/6/2021"
 output: pdf_document
+urlcolor : blue
 ---
 
-# Introducción
+## Introducción
 
+El problema de estudio en el que nos vamos a centrar, se basa en el Reporte de Felicidad Mundial. 
+Nos motiva y nos despierta interés analizar este mismo, debido a que sabemos lo importante que es la felicidad, el bienestar y la calidad de vida para cada una de las personas, y para que esto suceda debe ser una preocupación primordial para los gobiernos. Debido a esto, nos interesa analizar cuál es la relación de las distintas variables frente a la felicidad de la sociedad y también investigar si los niveles de felicidad han aumentado o disminuido a lo largo del tiempo. 
 
-
-
-
+El secreto de la felicidad no se encuentra en la búsqueda de más, sino en el desarrollo de la capacidad para disfrutar de menos. - Sócrates.
 
 
 ## Datos
 
 Los datos que vamos a utilizar en este proyecto son de [Datos sobre felicidad](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-08-07) y su fuente es de [World Happines Report 2019](https://worldhappiness.report/ed/2019/)
 
-Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones, una variable de tipo character la cual corresponde a "pais" y 16 variables de tipo numerico las cuales son año (que va desde 2005 hasta 2018), escalera_vida (que corresponde al puntaje de felicidad), log_pib (logaritmo del Producto Interno Bruto), soporte_social (Calidad del soporte social), expectativa_vida (Expectativa de vida saludable), libertad (Libertad para tomar decisiones de vida), generosidad (Se mide a partir de las variables PIB per cápita y la pregunta sobre si se ha donado dinero a una institución de caridad), Percepcion_corrupcion (Percepción de la corrupción), afecto_positivo (medido a partir de la respuesta a preguntas sobre felicidad, risa y gozo), afecto_negativo (medido a partir de la respuesta a preguntas sobre preocupación, tristeza y enojo), confianza (Confianza en el gobierno), calidad_democracia (Calidad de la democracia), calidad_entrega (Calidad de la entrega de servicios por parte del gobierno), de_escalera_pais_anio (Desviación estándar por país y año del puntaje de felicidad o Escalera de Vida), gini_banco_mundial (Gini según el Banco Munial), gini_banco_mundial_promedio (Promedio Gini para el período 2000-2016). 
+Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones. Una variable de tipo character la cual corresponde a "pais" y 16 variables de tipo numerico las cuales son año (que va desde 2005 hasta 2018), escalera_vida (que corresponde al puntaje de felicidad), log_pib (logaritmo del Producto Interno Bruto), soporte_social (Calidad del soporte social), expectativa_vida (Expectativa de vida saludable), libertad (Libertad para tomar decisiones de vida), generosidad (Se mide a partir de las variables PIB per cápita y la pregunta sobre si se ha donado dinero a una institución de caridad), Percepcion_corrupcion (Percepción de la corrupción), afecto_positivo (medido a partir de la respuesta a preguntas sobre felicidad, risa y gozo), afecto_negativo (medido a partir de la respuesta a preguntas sobre preocupación, tristeza y enojo), confianza (Confianza en el gobierno), calidad_democracia (Calidad de la democracia), calidad_entrega (Calidad de la entrega de servicios por parte del gobierno), de_escalera_pais_anio (Desviación estándar por país y año del puntaje de felicidad o Escalera de Vida), gini_banco_mundial (Gini según el Banco Munial), gini_banco_mundial_promedio (Promedio Gini para el período 2000-2016). 
 
 
 # Análisis exploratorio 
@@ -33,7 +34,7 @@ library(forcats)
 
 ## Leemos los datos
 
-```{r, echo = TRUE, include=FALSE}
+```{r, echo = TRUE, include = FALSE}
 felicidad <- readr::read_csv("https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-08-07/felicidad.csv")
 ```
 
