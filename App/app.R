@@ -1,5 +1,6 @@
 library(shiny)
-
+library(tidyverse)
+felicidad <- readr::read_csv("https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-08-07/felicidad.csv")
 
 ui <- fluidPage(
     
@@ -9,10 +10,27 @@ ui <- fluidPage(
              ),
 
     tabsetPanel(
-        tabPanel("Bivariada", 
-              
-        ),
-        tabPanel("Univariada"),
+        tabPanel("Bivariada",),
+        tabPanel("Univariada",
+                 sidebarLayout(
+                     sidebarPanel(
+                         selectInput("var",
+                                     "Variable de interes",
+                                     c("Felicidad","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción","Confianza en el gobierno","Calidad de la democracia","Gini")
+                                     ),
+                         selectInput("anio",
+                                     "año",
+                                     c(2005:2018)
+                                     ),
+                         checkboxGroupInput("pais", 
+                                            "Paises", 
+                                            c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")
+                                            ),
+                         ),
+                     mainPanel(plotOutput("biv")
+                     )     
+                 )
+                 ),
         tabPanel("Tabla"),
         tabPanel("Serie temporal"),
         tabPanel("Mapa")
