@@ -4,6 +4,7 @@ author: "Sofia De León, Ignacio Campón, Jonathan Pirez, María de Freitas"
 date: "28/6/2021"
 output: pdf_document
 urlcolor : blue
+lang : es
 ---
 
 ## Introducción
