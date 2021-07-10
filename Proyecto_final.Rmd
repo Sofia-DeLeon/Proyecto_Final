@@ -133,15 +133,14 @@ ggplot(fel_pais) + geom_point(aes(x = log_pib, y = escalera_vida)) +
 
 ```{r, echo = FALSE, fig.cap= "Gráfico de esperanza de vida al nacer vs grado de felicidad para paises de Sudamérica. No se observa en todos los paises una relación positiva entre esperanza de vida al nacer y grado de felicidad"}
 fel_pais%>%
-  ggplot(aes(x = expectativa_vida, y = escalera_vida)) +
+  ggplot(aes(x = expectativa_vida, y = escalera_vida, colour = pais)) +
 geom_point()+ geom_smooth(method=lm)+
   labs(x = "Esperanza de vida al nacer",
 y = "Grado de Felicidad",
 colour = "Pais") +
-  facet_wrap(~pais)+
 theme(aspect.ratio = 1)
-
 ```
+
 
 # Descripción de la aplicación Shiny 
 
