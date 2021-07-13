@@ -24,6 +24,11 @@ x <- inner_join(felicidad, paises, by = c("pais"="nombre"))
 
 America <- c("Uruguay", "Argentina", "Chile", "Brazil", "Ecuador", "Bolivia", "Paraguay", "Peru", "Colombia", "Venezuela")
 
+#Renombarmos las variables del conjunto de datos
+
+colnames(x) <- c("Pais","Ano","Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                 "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
+                 "de_escalera_pais_anio","Gini","gini_banco_mundial_promedio","continente","name")
 
 
 ui <- fluidPage(
@@ -97,13 +102,30 @@ ui <- fluidPage(
 
 server <- function(input, output) {
     
+    output$biv <- renderPlot({
+        x %>% filter(continente=='America') %>%
+            group_by(Pais) %>% 
+            
+            filter(Pais==input$pais) %>% 
+            ggplot(data = x,
+               aes(x = .data[[input$var]])) +
+               geom_bar()
+    })
+    #no logro representar mi idea, lo que busco es un grafico de barras que muestre la variable seleccionado en input$var 
+    #quiero q cada barra sea un puntaje de feliciadad por ano, entonces si selecciono Felicidad y Uruguay yo visualizo un 
+    #grafico de barras, con barras para cada ano con su puntaje de felicidad.
+    
+    
+    
+    
+    
     
     output$serplot <- renderPlot({
        
-        x %>% group_by(anio,continente) %>% 
-            summarise(escalera_vida=mean(escalera_vida)) %>% 
+        x %>% group_by(Ano,continente) %>% 
+            summarise(Felicidad=mean(Felicidad)) %>% 
             filter(continente==input$conti) %>% 
-            ggplot(aes(x = anio, y = escalera_vida,group=input$conti,color=input$conti))+
+            ggplot(aes(x = Ano, y = Felicidad,group=input$conti,color=input$conti))+
             geom_point() + 
             geom_line() + 
             labs(x = "Año", y = "Puntaje de Felicidad")
