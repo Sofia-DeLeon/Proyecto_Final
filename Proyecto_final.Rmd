@@ -25,6 +25,7 @@ Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones.
 
 library(dplyr)
 library(xtable)
+options(xtable.comment = FALSE)
 
 Variables <- c("pais", "año", "escalera_vida", "log_pib", "soporte_social", "expectativa_vida", "libertad", "generosidad", "Percepcion_corrupcion", "afecto_positivo", "afecto_negativo", "confianza", "calidad_democracia", "calidad_entrega", "de_escalera_pais_anio", "gini_banco_mundial", "gini_banco_mundial_promedio")
 
@@ -52,88 +53,128 @@ xtable(x)
 library(tidyverse)
 library(ggplot2)
 library(forcats)
+library(stringi)
 ```
 
-
-## Leemos los datos
 
 ```{r, echo = FALSE, include = FALSE}
 felicidad <- readr::read_csv("https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-08-07/felicidad.csv")
 ```
 
+```{r, echo = FALSE, include = FALSE}
+paises <- readr::read_csv("https://gist.githubusercontent.com/kintero/7d1db891401f56256c79/raw/a61f6d0dda82c3f04d2e6e76c3870552ef6cf0c6/paises.csv")
+paises <- select(paises,c("nombre","continente","name"))
+```
 
-### *Puntaje de felicidad para algunos paises de Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú, Uruguay, Venezuela) a lo largo de los años en grafico de puntos y lineas:*
+
+```{r, echo = FALSE, include = FALSE}
+paises <- paises %>% 
+     mutate(continente = recode(continente, "Australia y Oceanía" = "Oceania"))
+```
+
+```{r, echo = FALSE, include = FALSE}
+paises$continente<- stri_trans_general(paises$continente,"Latin-ASCII")
+felicidad$pais <- stri_trans_general(felicidad$pais,"Latin-ASCII")
+```
+
+```{r, echo = FALSE, include = FALSE}
+base_felicidad <- inner_join(felicidad, paises, by = c("pais"="nombre"))
+```
+
+
+## Lo primero que nos planteamos explorar es ver como fue la variación del puntaje de felicidad para los distintos continentes a lo largo de los años, para observar esto nos planteamos el siguiente gráfico:
+
+```{r, echo = FALSE, message = FALSE, fig.cap = "En esta figura podemos observar como fue la variación a los largo de los años, el puntaje de felicidad para los distintos continentes. Observamos que Oceanía a lo largo de los años siempre tuvo puntaje mayor a siete y Africa siempre menor a seis."}
+base_felicidad %>%
+          group_by(anio, continente) %>% 
+          summarise(promedio_escalera_vida = mean(escalera_vida)) %>% 
+          ggplot(aes(x = anio, y = promedio_escalera_vida)) + geom_line() + facet_wrap(vars(continente)) + labs(x = "Año", y = "Puntaje de Felicidad")
+```
+
+## A partir del gráfico anterior nos interesa saber que sucedió a lo largo de los años con algunos países de Sudamérica y también como se comportan ditintas variables con respecto a Oceanía. 
+
+## Mediante lo anterior, nos plantemos el siguiente gráfico:
 
 ```{r, echo = FALSE, message = FALSE, fig.cap = "Puntaje de felicidad a lo largo de los años para algunos países de Sudamérica. En estas figuras podemos observar que a lo largo de los años, estos países han tendio puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siepre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7."}
-felicidad %>%
+base_felicidad %>%
      group_by(pais) %>% 
      summarise(escalera_vida, anio) %>% 
      filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")) %>% 
      ggplot(aes(x = anio, y = escalera_vida)) + geom_point() + geom_line() + facet_wrap(vars(pais)) + labs(x = "Año", y = "Puntaje de Felicidad")
 ```
 
+## En la siguiente figura podemos observar cual de los paises seleccionados de Sudamérica tiene mayor promedio del puntaje de felicidad
 
-### *Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de barras:*
-
-```{r, echo = TRUE, fig.cap = "Puntaje promedio de felicidad para algunos países de Sudamérica. En esta figura podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil, mientras que el que tiene menor puntaje de felicidad corresponde a Paraguay."}
-felicidad %>%
+```{r, echo = FALSE, message = FALSE, fig.cap = "Puntaje promedio de felicidad para algunos países de Sudamérica. En esta figura podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil, mientras que el que tiene menor puntaje de felicidad promedio corresponde a Paraguay."}
+base_felicidad %>%
       group_by(pais) %>% 
        summarise(media_escalera_vida = mean(escalera_vida)) %>% 
      filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela")) %>% 
-     ggplot(aes(x = reorder(pais, -media_escalera_vida), y = media_escalera_vida)) + geom_bar(stat = "identity") + labs(x = "País", y = "Puntaje promedio de felicidad")
+     ggplot(aes(x = reorder(pais, -media_escalera_vida), y = media_escalera_vida, fill = pais)) + geom_bar(stat = "identity") + labs(x = "País", y = "Puntaje promedio de felicidad")
 ```
 
-
-### ¿Cuáles son los 6 paises que tiene el promedio de afecto negativo (preocupación, tristeza, enojo) más alto?
-
-
-```{r, echo = TRUE}
-mean_negativo <- felicidad %>%
-      group_by(pais) %>% 
-      summarise(mean_afecto_negativo = mean(afecto_negativo, na.rm = TRUE)) %>% 
-      arrange(desc(mean_afecto_negativo))
-```
-
-```{r, echo = TRUE, message = FALSE, results = 'asis'}
-xtable(head(mean_negativo), caption = "Top 6 de países con mayor promedio de afecto negativo")
-```
-
-
-En este caso podemos observar que el país que tiene el promedio más alto de afecto negativo es Irak. 
 
 ### *¿Existe alguna relación entre Felicidad-Pais?*
 
-```{r, echo = TRUE}
-fel_pais <- felicidad %>% 
+```{r, echo = FALSE}
+fel_pais <- base_felicidad %>% 
   select(pais, anio, escalera_vida, log_pib, expectativa_vida) %>% 
   filter(pais %in% c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Perú", "Colombia", "Venezuela"))
 
 ```
 
-```{r, echo = TRUE, fig.cap = "Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de caja. En esta figura al igual que en el grafico de barras podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil y el que tiene menor puntaje en promedio es Paraguay; pero lo que no podemos visualizar en el grafico de barras es que Venezuela en algunos años fue el pais con menor y a su vez con mayor felicidad de Sudamerica."}
+```{r, echo = FALSE, fig.cap = "Puntaje promedio de felicidad para algunos paises de Sudamérica en gráfico de caja. En esta figura al igual que en el grafico de barras podemos observar que el país que tiene mayor puntaje promedio de felicidad es Brasil y el que tiene menor puntaje en promedio es Paraguay; pero lo que no podemos visualizar en el grafico de barras es que Venezuela en algunos años fue el pais con menor y a su vez con mayor felicidad de Sudamerica."}
 ggplot(fel_pais) + geom_boxplot(aes(x = reorder(pais,escalera_vida), y = escalera_vida)) + 
   labs(x = "Paises", y = "Grado de Felicidad")
 
 ```
 
+## En este caso, vamos a investigar que sucede con la variable afecto_positivo para los países de Oceanía
+
+```{r, echo = FALSE, message = FALSE, fig.cap = "En esta figura podemos observar un grafico de densidad para la variable afecto_positivo, para los países que corresponden a Oceanía. Observamos que Nueva Zelanda tiene una aproximación a una distribución simétrica y con una media en el entorno de 0.85, en el caso de Australia podemos ver que su media se encuentra en el entorno de 0.80, ambas estando muy cerca de 1"}
+base_felicidad %>% 
+           filter(continente == "Oceania") %>% 
+           group_by(pais) %>% 
+           summarise(afecto_positivo) %>% 
+      ggplot(aes(x = afecto_positivo)) + geom_density(aes(fill = pais))
+```
+
+
+## De acuerdo al resultado anterior, vamos a analizar cuales son los 6 paises que tienen el promedio de afecto negativo (preocupación, tristeza, enojo) más alto
+
+
+```{r, echo = FALSE}
+mean_negativo <- base_felicidad %>%
+      group_by(pais) %>% 
+      summarise(mean_afecto_negativo = mean(afecto_negativo, na.rm = TRUE)) %>% 
+      arrange(desc(mean_afecto_negativo))
+```
+
+```{r, echo = FALSE, message = FALSE, results = 'asis'}
+xtable(head(mean_negativo), caption = "Top 6 de países con mayor promedio de afecto negativo")
+```
+
+
+En este caso podemos observar que el país que tiene el promedio más alto de afecto negativo es Irak, eso podría explicar por qué el continente Africano tiene un puntaje menor a 6, siendo la mayoría de los paises con mayor puntaje negativo paises africanos.
+
+La siguiente pregunta que nos interesa responer es:
 
 ### *¿Existe alguna relación entre Felicidad-PBI?*
 
-```{r, echo = TRUE, message = FALSE, fig.cap = "Asocacion entre PIB y Felicidad. En esta figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad, a mayor PIB; mayor puntaje de felicidad." }
+```{r, echo = FALSE, message = FALSE, fig.cap = "Asocacion entre PIB y Felicidad. En esta figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad, a mayor PIB; mayor puntaje de felicidad." }
 lm( escalera_vida ~ log_pib, data = fel_pais )
 
 ggplot(fel_pais) + geom_point(aes(x = log_pib, y = escalera_vida)) + 
-  labs(title ="Asocacion entre PIB y Felicidad", x = "Grado de Felicidad", y = "PIB") +
+  labs(x = "Grado de Felicidad", y = "PIB") +
   geom_abline (intercept = -1.6678, slope = 0.8223, col = 'blue',lwd = 1)
 
 ```
 
 
-
 ### *¿Existe alguna relación entre Felicidad-Esperanza de vida al nacer?*
 
-```{r, echo = FALSE, fig.cap= "Gráfico de esperanza de vida al nacer vs grado de felicidad para paises de Sudamérica. No se observa en todos los paises una relación positiva entre esperanza de vida al nacer y grado de felicidad"}
-fel_pais%>%
+```{r, echo = FALSE, message = FALSE, fig.cap= "Gráfico de esperanza de vida al nacer vs grado de felicidad para paises de Sudamérica. No se observa en todos los paises una relación positiva entre esperanza de vida al nacer y grado de felicidad"}
+fel_pais %>%
   ggplot(aes(x = expectativa_vida, y = escalera_vida, colour = pais)) +
 geom_point()+ geom_smooth(method=lm)+
   labs(x = "Esperanza de vida al nacer",
