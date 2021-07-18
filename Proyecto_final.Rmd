@@ -171,17 +171,20 @@ xtable(head(mean_positivo), caption = "Top 6 de países con mayor promedio de af
 
 De acuerdo al cuadro anterioir, podemos visualizar que el promedio más alto de afecto positivo es Islandia.
 
-Por otro lado, nos interesa saber cual es la relacion que existe entre las variables Felicidad y PBI para los paises de Sudamerica seleccionados, y de acuerdo a esta última figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad; a mayor PIB, mayor puntaje de felicidad.
+Por otro lado, nos interesa saber cual es la relacion que existe entre las variables Felicidad y PBI. Para estudiar dicha relacion seleccionamos todos los paises del conjunto de datos para el año 2010 y coloreamos cada pais segun su continente; de acuerdo a esta última figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad; a mayor PIB, mayor puntaje de felicidad, a su vez se puede observar distintos grupos, podemos decir que hay un grupo de puntos de paises Africanos en la parte baja e izquierda del grafico, luego otro gran grupo de puntos en el medio del grafico que incluye la mayoria de los paises de America y Asia y parte de paises de Europa y Oceania mientras que en la parte alta y derecha se agrupan varios paises Europeos y Asiaticos.
 
 ```{r, echo = FALSE, message = FALSE, include=FALSE}
-lm( escalera_vida ~ log_pib, data = fel_pais )
+fel_pais2 <- base_felicidad %>% 
+             select(pais, anio, continente, log_pib, escalera_vida) %>% 
+             filter(anio == 2010)
+lm( escalera_vida ~ log_pib, data = fel_pais2 )
 ```
 
 
 ```{r, echo = FALSE, fig.cap = "Relacion entre log_PIB y Puntaje de felicidad"}
-ggplot(fel_pais) + geom_point(aes(x = log_pib, y = escalera_vida)) + 
+ggplot(fel_pais2) + geom_point(aes(x = log_pib, y = escalera_vida, color = continente)) + 
   labs(x = "Log_PBI", y = "Grado de felicidad") +
-  geom_abline (intercept = -1.6678, slope = 0.8223, col = 'blue',lwd = 1)
+  geom_abline (intercept = -1.3515, slope = 0.7483, col = 'blue',lwd = 0.5)
 
 ```
 
