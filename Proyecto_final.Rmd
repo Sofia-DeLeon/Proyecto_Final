@@ -30,27 +30,28 @@ Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones.
 
 \newpage
 
+
 Table: Descripción de variables
 
- Variable                      |  Descripción                                               | Tipo de variable     | 
--------------------------------| -----------------------------------------------------------|----------------------|
-pais                           | Nombre de paises                                           | Cadena de texto
-año                            | Año desde 2005 hasta 2018                                  | Numérico
-escalera_vida                  | Puntaje de felicidad                                       | Numérico
-log_pib                        | Log Producto Interno Bruto                                 | Numérico
-soporte_social                 | Promedio de las respuestas binarias (0 y 1): Si tuvo problemas, ¿tiene parientes en los que pueda contar para ayudarlo?| Numérico
-expectativa_vida               | Las expectativas de vida saludable al nacer se basan sobre los datos extraídos de la OMS| Numérico
-libertad                       | Promedio nacional de respuestas a la pregunta ¿Está satisfecho o insatisfecho con su libertad para elegir qué hacer con su vida?| Numérico
-generosidad                    | La generosidad es el residuo de la regresión del del promedio nacional de respuesta a la pregunta ¿Ha donado dinero a una organización benéfica en el último mes?| Numérico
-Percepcion_corrupcion          | Medida del promedio nacional de las respuestas entre 0 y 1 de la pregunta ¿Está la corrupción generalizada en el gobierno?| Numérico
-afecto_positivo                | Promedio de tres medidas de afecto positivo: felicidad, risa y disfrute| Numérico
-afecto_negativo                | Promedio de tres medidas de afecto negativo: preocupación, tristeza y enojo| Numérico
-confianza                      | Confianza en el gobierno                                   | Numérico
-calidad_democracia             | Calidad de la democracia                                   | Numérico
-calidad_entrega                | Calidad de la entrega de servicios por parte del gobierno  | Numérico
-de_escalera_pais_anio          | Desviación estándar por país y año del puntaje de felicidad| Numérico
-gini_banco_mundial             | Gini según el Banco Munial                                 | Numérico
-gini_banco_mundial_promedio    | Promedio Gini para el período 2000-2016                    | Numérico
+ Variable                      |  Descripción                                               | Tipo de variable     |  Rango de valores |
+-------------------------------| -----------------------------------------------------------|----------------------|-----------------|
+pais                           | Nombre de paises                                           | Cadena de texto | 
+año                            | Año desde 2005 hasta 2018                                  | Numérico | 2005 - 2018
+escalera_vida                  | Puntaje de felicidad                                       | Numérico | 0 - 10
+log_pib                        | Log Producto Interno Bruto                                 | Numérico | 6 - 12
+soporte_social                 | Promedio de las respuestas binarias (0 y 1): Si tuvo problemas, ¿tiene parientes en los que pueda contar para ayudarlo?| Numérico | 0 - 1
+expectativa_vida               | Las expectativas de vida saludable al nacer se basan sobre los datos extraídos de la OMS| Numérico | 30 - 80
+libertad                       | Promedio nacional de respuestas a la pregunta ¿Está satisfecho o insatisfecho con su libertad para elegir qué hacer con su vida?| Numérico | 0 - 1
+generosidad                    | La generosidad es el residuo de la regresión del promedio nacional de respuesta a la pregunta ¿Ha donado dinero a una organización benéfica en el último mes?| Numérico | -0.4 - 0.7
+Percepcion_corrupcion          | Medida del promedio nacional de las respuestas entre 0 y 1 de la pregunta ¿Está la corrupción generalizada en el gobierno?| Numérico | 0 - 1
+afecto_positivo                | Promedio de tres medidas de afecto positivo: felicidad, risa y disfrute| Numérico | 0 - 1
+afecto_negativo                | Promedio de tres medidas de afecto negativo: preocupación, tristeza y enojo| Numérico | 0 - 1
+confianza                      | Confianza en el gobierno                                   | Numérico | 0 - 1
+calidad_democracia             | Calidad de la democracia                                   | Numérico | -2.5 - 2
+calidad_entrega                | Calidad de la entrega de servicios por parte del gobierno  | Numérico | -2.5 - 2.5
+de_escalera_pais_anio          | Desviación estándar por país y año del puntaje de felicidad| Numérico | 0 - 4
+gini_banco_mundial             | Gini según el Banco Munial                                 | Numérico | 0 - 1
+gini_banco_mundial_promedio    | Promedio Gini para el período 2000-2016                    | Numérico | 0 - 1
 
 
 
