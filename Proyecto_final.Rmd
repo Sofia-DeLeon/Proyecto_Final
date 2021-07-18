@@ -16,7 +16,14 @@ Nos motiva y nos despierta interés analizar este mismo, debido a que sabemos lo
 
 
 ## Datos
-
+```{r, echo = FALSE, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(forcats)
+library(stringi)
+library(xtable)
+options(xtable.comment = FALSE)
+```
 Los datos que vamos a utilizar en este proyecto son de [Datos sobre felicidad](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-08-07) y su fuente es de [World Happines Report 2019](https://worldhappiness.report/ed/2019/)
 
 Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones. 
@@ -25,7 +32,7 @@ Este conjunto de datos seleccionado tiene 17 variables y 1704 observaciones.
 
 Table: Descripción de variables
 
- Variable                      |  Descripción                                               | Tipo de variable     |
+ Variable                      |  Descripción                                               | Tipo de variable     | 
 -------------------------------| -----------------------------------------------------------|----------------------|
 pais                           | Nombre de paises                                           | Cadena de texto
 año                            | Año desde 2005 hasta 2018                                  | Numérico
@@ -46,8 +53,32 @@ gini_banco_mundial             | Gini según el Banco Munial                    
 gini_banco_mundial_promedio    | Promedio Gini para el período 2000-2016                    | Numérico
 
 
+
 \newpage
 
+```{r, echo=FALSE, results='asis'}
+Variable <- c("pais", "año", "escalera_vida", "log_pib", "soporte_social", "expectativa_vida", "libertad", "generosidad", "Percepcion_corrupcion", "afecto_positivo", "afecto_negativo", "confianza", "calidad_democracia", "calidad_entrega", "de_escalera_pais_anio", "gini_banco_mundial", "gini_banco_mundial_promedio")
+
+Descripción <- c("Nombre de paises", "Año desde 2005 hasta 2018", "Puntaje de felicidad", "Log Producto Interno Bruto", "Promedio de las respuestas a: Si tuvo 
+problemas, ¿tiene parientes con los que pueda contar para ayudarlo?", "La expectativa de vida saludable al nacer se basa en datos extraídos de la OMS", "Promedio nacional de respuestas a: ¿Está 
+satisfecho o insatisfecho con su libertad para elegir qué hacer con su vida?", "Residuo de la regresión del promedio nacional de respuestas a: ¿Ha donado dinero a una organización benéfica en el 
+último mes?", "Medida del promedio nacional de respuestas a: ¿Está la corrupción generalizada
+en el gobierno?", "Promedio de tres medidas de afecto positivo: 
+felicidad, risa y disfrute", "Promedio de tres medidas de afecto negativo: 
+preocupación, tristeza y enojo", "Confianza en el gobierno", "Calidad de la democracia", "Calidad de la entrega de servicios por parte del 
+gobierno", "Desviación estándar por país y año del puntaje de 
+felicidad", "Gini según el Banco Munial", "Promedio Gini para el período 2000-2016")
+
+tipo_variable <- c("Cadena de texto", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico","Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico")
+rango_valores <- c(" " , "[2005-2018]", "[0-10]",  "[6-12]", "[0-1]", "[30-80]", "[0-1]", "[-0.4-0.7]", "[0-1]", "[0-1]", "[0-1]", "[0-1]", "[-2.5-2]", "[-2.5-2.5]", "[0-4]", "[0-1]", "[0-1]")
+tabla <- data.frame(Variable, Descripción, tipo_variable, rango_valores)
+tabla%>%
+  rename("Tipo de variables" = tipo_variable, "Rango de valores" = rango_valores)%>%
+ xtable(caption = "Descripción de variables") %>% print(scalebox="0.6", caption.placement = 'top',include.rownames = FALSE)
+```
+
+
+\newpage
 # Análisis exploratorio 
 
 
