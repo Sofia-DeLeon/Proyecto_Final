@@ -118,7 +118,8 @@ base_felicidad <- inner_join(felicidad, paises, by = c("pais"="nombre"))
 ```
 
 
-Lo primero que nos planteamos explorar es ver como fue la variación del puntaje de felicidad para los distintos continentes a lo largo de los años, para observar esto nos planteamos el gráfico de la figura 1, en este mismo podemos observar que Oceanía a lo largo de los años siempre tuvo puntaje mayor a siete y Africa siempre menor a seis, gran diferencia entre estos dos continentes. 
+Lo primero que nos planteamos explorar es ver como fue la variación del puntaje de felicidad para los distintos continentes y al interior de estos, a lo largo de los años. Para observarlo nos planteamos el gráfico de la figura 1, donde podemos observar que Oceanía a lo largo de los años siempre tuvo en promedio puntaje mayor a siete y Africa siempre menor a seis, gran diferencia entre estos dos continentes. 
+Si observamos la variación dentro de los continentes, podríamos decir que los paises europeos tienen una mayor variación del puntaje de felicidad y los paises de oceania una menor variación. Después de Oceania, los paises africanos son los que están más concentrados entorno al promedio del puntaje de felicidad del continente.
 
 ```{r, echo = FALSE, message = FALSE, fig.cap = "En esta figura podemos observar como fue la variación a los largo de los años, el promedio puntaje de felicidad para los distintos continentes"}
 base_felicidad %>%
@@ -127,6 +128,14 @@ base_felicidad %>%
           ggplot(aes(x = anio, y = promedio_escalera_vida)) + geom_line() + facet_wrap(vars(continente)) + labs(x = "Año", y = "Puntaje de Felicidad")
 ```
 
+
+```{r, echo = FALSE, message = FALSE, fig.cap = "Puntaje de felicidad a lo largo de los años por paises, por continente, en rojo el promedio de puntaje de felicidad por continente"}
+ base_felicidad%>%
+          group_by(anio, continente)%>%  
+          mutate(promedio_escalera_vida = mean(escalera_vida))%>%
+          ggplot(aes(x = anio, y = escalera_vida)) + geom_line(aes(group = pais), alpha = 0.3, lwd=0.8) + facet_wrap(~ continente) + labs(x = "Año", y = "Puntaje de Felicidad")  + geom_line(aes(anio, promedio_escalera_vida), colour = "red", lwd=1.1)
+
+```
 \newpage
 
 A partir del gráfico anterior nos interesó saber que sucedió a lo largo de los años con algunos países de Sudamérica, y nos planteamos el gráfico de la figura 2. En este mismo, podemos observar que a lo largo de los años, estos países han tendio puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siepre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7.
