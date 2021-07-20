@@ -54,18 +54,15 @@ ui <- fluidPage(
                      sidebarPanel(
                          selectInput("var",
                                      "Variable de interes",
-                                     c("Felicidad","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción","Confianza en el gobierno","Calidad de la democracia","Gini")
-                         ),
-                         selectInput("anio",
-                                     "año",
-                                     c(2005:2018)
-                         ),
-                         checkboxGroupInput("pais", 
-                                            "Paises", 
-                                            c("Uruguay", "Argentina", "Chile", "Brasil", "Ecuador", "Bolivia", "Paraguay", "Peru", "Colombia", "Venezuela")
+                                     c("Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                       "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
+                                       "de_escalera_pais_anio","Gini")),
+                         selectInput("contiu",
+                                     "Continente",
+                                     c("Europa","Africa","America","Oceania","Asia")
                          ),
                      ),
-                     mainPanel(plotOutput("biv")
+                     mainPanel(plotOutput("Uni")
                      )     
                  )
         ),
@@ -109,19 +106,65 @@ ui <- fluidPage(
 
 server <- function(input, output) {
     
-    output$biv <- renderPlot({
-        x %>%
-            group_by(Pais) %>% 
-            summarise(.data[[input$var]]) %>%
-            ggplot(
-               aes(x = .data[[input$var]])) +
-               geom_histogram(binwidth = 0.25)
-    })
-    #no logro representar mi idea, lo que busco es un grafico de barras que muestre la variable seleccionado en input$var 
-    #quiero q cada barra sea un puntaje de feliciadad por ano, entonces si selecciono Felicidad y Uruguay yo visualizo un 
-    #grafico de barras, con barras para cada ano con su puntaje de felicidad.
+
     
-    
+    ploteo <- reactive( 
+        if (input$contiu == "America") {
+            box <- x %>% filter(continente=="America") 
+            gg <- box %>%
+                ggplot() +
+                geom_boxplot(data=box,aes(x =reorder(box$Pais,.data[[input$var]]), y = .data[[input$var]]))+
+                labs(y=input$var, x="Pais") +
+                theme_minimal() +
+                theme(axis.text.x = element_text(angle = 90,    
+                                                 size = 6))+
+                theme(aspect.ratio = 0.5)
+            print(gg)
+        }else if(input$contiu == "Europa"){
+            box <- x %>% filter(continente=="Europa") 
+            gg <- box %>%
+                ggplot() +
+                geom_boxplot(data=box,aes(x =reorder(box$Pais,.data[[input$var]]), y = .data[[input$var]]))+
+                labs(y=input$var, x="Pais") +
+                theme_minimal() +
+                theme(axis.text.x = element_text(angle = 90,    
+                                                 size = 6))+
+                theme(aspect.ratio = 0.5)
+            print(gg)
+        }else if(input$contiu == "Africa"){
+            box <- x %>% filter(continente=="Africa") 
+            gg <- box %>%
+                ggplot() +
+                geom_boxplot(data=box,aes(x =reorder(box$Pais,.data[[input$var]]), y = .data[[input$var]]))+
+                labs(y=input$var, x="Pais") +
+                theme_minimal() +
+                theme(axis.text.x = element_text(angle = 90,    
+                                                 size = 6))+
+                theme(aspect.ratio = 0.5)
+            print(gg)
+        }else if(input$contiu == "Asia"){
+            box <- x %>% filter(continente=="Asia") 
+            gg <- box %>%
+                ggplot() +
+                geom_boxplot(data=box,aes(x =reorder(box$Pais,.data[[input$var]]), y = .data[[input$var]]))+
+                labs(y=input$var, x="Pais") +
+                theme_minimal() +
+                theme(axis.text.x = element_text(angle = 90,    
+                                                 size = 6))+
+                theme(aspect.ratio = 0.5)
+            print(gg)
+        }else{
+            box <- x %>% filter(continente=="Australia y Oceania") 
+            gg <- box %>%
+                ggplot() +
+                geom_boxplot(data=box,aes(x =reorder(box$Pais,.data[[input$var]]), y = .data[[input$var]]))+
+                labs(y=input$var, x="Pais") +
+                theme_minimal() +
+                theme(axis.text.x = element_text(angle = 90,    
+                                                 size = 6))+
+                theme(aspect.ratio = 0.5)
+            print(gg)
+        })
     
     
     
@@ -136,11 +179,7 @@ server <- function(input, output) {
             labs(x = "Año", y = "Puntaje promedio de Felicidad")
         })
     
-    #x %>%
-       # group_by(anio,continente) %>% 
-        #summarise(escalera_vida=mean(escalera_vida)) %>% 
-        #ggplot(aes(x = anio, y = escalera_vida,group=continente,color=continente)) + geom_point() + geom_line() + labs(x = "Año", y = "Puntaje de Felicidad")
-    
+    output$Uni <- renderPlot({ploteo()})    
     
 }
 
