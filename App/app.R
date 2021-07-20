@@ -57,6 +57,7 @@ ui <- fluidPage(
     tabsetPanel(
 #Panel bivariada        
         tabPanel("Bivariada",
+                 h2("Diagrama de dispersión", align = "center"),
                  sidebarLayout(
                      sidebarPanel(
                          selectInput("varx",
@@ -66,16 +67,12 @@ ui <- fluidPage(
                                        "de_escalera_pais_anio","Gini")),
                          selectInput("vary",
                                      "Variable Y",
-                                     c("Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                     c("PIB","Felicidad","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
                                        "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
                                        "de_escalera_pais_anio","Gini")),
-                         selectInput("contib",
-                                     "Continente",
-                                     c("Europa","Africa","America","Oceania","Asia")
-                         ),
                          selectInput("anio",
                                      "año",
-                                     c(2005:2018)
+                                     c(2018:2005)
                          ),
                      ),
                      mainPanel(plotOutput("biv")
@@ -84,6 +81,7 @@ ui <- fluidPage(
                  ),
 #Panel Univariada        
         tabPanel("Univariada",
+                 h2("Diagrama de caja", align = "center"),
                  sidebarLayout(
                      sidebarPanel(
                          selectInput("var",
@@ -137,11 +135,103 @@ server <- function(input, output) {
 #Grafico de Bivariado    
     
     ploteob <- reactive( if (input$anio == 2018){
-            scat <- x %>% filter(Ano==2018) 
-            gg1 <- scat %>%
-                ggplot() +
-                geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]]))
-            print(gg1)
+        scat <- x %>% filter(Ano==2018) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2017){
+        scat <- x %>% filter(Ano==2017) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2016){ 
+        scat <- x %>% filter(Ano==2016) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2015){
+        scat <- x %>% filter(Ano==2015) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2014){
+        scat <- x %>% filter(Ano==2014) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2013){ 
+        scat <- x %>% filter(Ano==2013) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2012){ 
+        scat <- x %>% filter(Ano==2012) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2011){ 
+        scat <- x %>% filter(Ano==2011) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2010){ 
+        scat <- x %>% filter(Ano==2010) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2009){ 
+        scat <- x %>% filter(Ano==2009) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2008){ 
+        scat <- x %>% filter(Ano==2008) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2007){ 
+        scat <- x %>% filter(Ano==2007) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2006){ 
+        scat <- x %>% filter(Ano==2006) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
+    }else if(input$anio == 2005){ 
+        scat <- x %>% filter(Ano==2005) 
+        gg1 <- scat %>%
+            ggplot() +
+            geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]],colour=continente))+
+            theme(aspect.ratio = 1)
+        print(gg1)
     })
     
     
@@ -227,7 +317,7 @@ server <- function(input, output) {
     })
     
     output$Uni <- renderPlot({ploteou()}, height = 800, width = 1200)
-    output$biv <- renderPlot({ploteob()})
+    output$biv <- renderPlot({ploteob()},height = 600, width = 1000)
     
 }
 
