@@ -89,7 +89,7 @@ ui <- fluidPage(
                          ),
                         
                      ),
-                     mainPanel(plotOutput("Uni")
+                     mainPanel(plotOutput("Uni", width = "100%")
                      )     
                  )
         ),
@@ -155,7 +155,7 @@ server <- function(input, output) {
                 labs(y=input$var, x="Pais") +
                 theme_minimal() +
                 theme(axis.text.x = element_text(angle = 90,    
-                                                 size = 6))+
+                                                 size = 12))+
                 theme(aspect.ratio = 0.5)
             print(gg)
         }else if(input$contiu == "Europa"){
@@ -166,7 +166,7 @@ server <- function(input, output) {
                 labs(y=input$var, x="Pais") +
                 theme_minimal() +
                 theme(axis.text.x = element_text(angle = 90,    
-                                                 size = 6))+
+                                                 size = 12))+
                 theme(aspect.ratio = 0.5)
             print(gg)
         }else if(input$contiu == "Africa"){
@@ -177,7 +177,7 @@ server <- function(input, output) {
                 labs(y=input$var, x="Pais") +
                 theme_minimal() +
                 theme(axis.text.x = element_text(angle = 90,    
-                                                 size = 6))+
+                                                 size = 12))+
                 theme(aspect.ratio = 0.5)
             print(gg)
         }else if(input$contiu == "Asia"){
@@ -188,7 +188,7 @@ server <- function(input, output) {
                 labs(y=input$var, x="Pais") +
                 theme_minimal() +
                 theme(axis.text.x = element_text(angle = 90,    
-                                                 size = 6))+
+                                                 size = 12))+
                 theme(aspect.ratio = 0.5)
             print(gg)
         }else{
@@ -199,7 +199,7 @@ server <- function(input, output) {
                 labs(y=input$var, x="Pais") +
                 theme_minimal() +
                 theme(axis.text.x = element_text(angle = 90,    
-                                                 size = 6))+
+                                                 size = 12))+
                 theme(aspect.ratio = 0.5)
             print(gg)
         })
@@ -217,7 +217,7 @@ server <- function(input, output) {
             labs(x = "Año", y = "Puntaje promedio de Felicidad")
         })
     
-    output$Uni <- renderPlot({ploteou()})
+    output$Uni <- renderPlot({ploteou()}, height = 800, width = 1200)
     output$biv <- renderPlot({ploteob()})
     
 }
