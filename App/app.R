@@ -31,6 +31,7 @@ America <- c("Uruguay", "Argentina", "Chile", "Brazil", "Ecuador", "Bolivia", "P
 
 #Renombarmos las variables del conjunto de datos
 
+
 colnames(x) <- c("Pais","Ano","Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
                  "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
                  "de_escalera_pais_anio","Gini","gini_banco_mundial_promedio","continente","name")
@@ -47,7 +48,32 @@ ui <- fluidPage(
 #Paneles    
     tabsetPanel(
 #Panel bivariada        
-        tabPanel("Bivariada"),
+        tabPanel("Bivariada",
+                 sidebarLayout(
+                     sidebarPanel(
+                         selectInput("varx",
+                                     "Variable X",
+                                     c("Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                       "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
+                                       "de_escalera_pais_anio","Gini")),
+                         selectInput("vary",
+                                     "Variable Y",
+                                     c("Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                       "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
+                                       "de_escalera_pais_anio","Gini")),
+                         selectInput("contib",
+                                     "Continente",
+                                     c("Europa","Africa","America","Oceania","Asia")
+                         ),
+                         selectInput("anio",
+                                     "año",
+                                     c(2005:2018)
+                         ),
+                     ),
+                     mainPanel(plotOutput("biv")
+                     )     
+                 )
+                 ),
 #Panel Univariada        
         tabPanel("Univariada",
                  sidebarLayout(
@@ -61,6 +87,7 @@ ui <- fluidPage(
                                      "Continente",
                                      c("Europa","Africa","America","Oceania","Asia")
                          ),
+                        
                      ),
                      mainPanel(plotOutput("Uni")
                      )     
@@ -107,8 +134,19 @@ ui <- fluidPage(
 server <- function(input, output) {
     
 
+#Grafico de Bivariado    
     
-    ploteo <- reactive( 
+    ploteob <- reactive( if (input$anio == 2018){
+            scat <- x %>% filter(Ano==2018) 
+            gg1 <- scat %>%
+                ggplot() +
+                geom_point(data=scat,aes(x =.data[[input$varx]], y = .data[[input$vary]]))
+            print(gg1)
+    })
+    
+    
+#Grafico de univariado    
+    ploteou <- reactive( 
         if (input$contiu == "America") {
             box <- x %>% filter(continente=="America") 
             gg <- box %>%
@@ -179,7 +217,8 @@ server <- function(input, output) {
             labs(x = "Año", y = "Puntaje promedio de Felicidad")
         })
     
-    output$Uni <- renderPlot({ploteo()})    
+    output$Uni <- renderPlot({ploteou()})
+    output$biv <- renderPlot({ploteob()})
     
 }
 
