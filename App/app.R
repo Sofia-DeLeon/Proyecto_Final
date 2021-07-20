@@ -24,7 +24,6 @@ paises <- paises %>%
 x <- inner_join(felicidad, paises, by = c("pais"="nombre"))
 
 
-
 #Definimos regiones
 
 America <- c("Uruguay", "Argentina", "Chile", "Brazil", "Ecuador", "Bolivia", "Paraguay", "Peru", "Colombia", "Venezuela")
@@ -37,6 +36,15 @@ colnames(x) <- c("Pais","Ano","Felicidad","PIB","Calidad soporte social","Expect
                  "de_escalera_pais_anio","Gini","gini_banco_mundial_promedio","continente","name")
 
 
+#Datos para mapa
+mapa <- inner_join(felicidad, paises, by = c("pais" = "name"))
+
+mapa <- mapa %>%
+    rename(region = pais)
+
+mapa_mundo <- map_data("world")
+
+mapa_felicidad <- left_join(mapa_mundo, mapa, by = "region")
 
 
 ui <- fluidPage(
@@ -111,18 +119,10 @@ ui <- fluidPage(
         tabPanel("Mapa",
                  sidebarLayout(
                      sidebarPanel(
-                         selectInput("mapa",
-                                     "Mapa",
-                                     c("Europa","Africa","America","Oceania","Asia")
-                         ),
                          selectInput("var",
                                      "Variable de interes",
-                                     c("Felicidad","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción","Confianza en el gobierno","Calidad de la democracia","Gini")
-                         ),
-                         selectInput("anio",
-                                     "año",
-                                     c(2005:2018)
-                         ),
+                                     c("escalera_vida","soporte_social","expectativa_vida","libertad","generosidad","percepcion_corrupcion","confianza","calidad_democracia","gini_banco_mundial")
+                         )
                      ),
                      mainPanel(plotOutput("mapplot"))     
                  )
@@ -216,6 +216,15 @@ server <- function(input, output) {
             geom_line() +
             labs(x = "Año", y = "Puntaje promedio de Felicidad")
         })
+    
+    
+    output$mapplot <- renderPlot({
+        
+        ggplot(mapa_felicidad, aes(long, lat, group = group))+
+            geom_polygon(aes(fill = .data[[input$var]]), color = "white") +
+            scale_fill_viridis_c() + labs(x = "Longitud", y = "Latitud")
+        
+    })
     
     output$Uni <- renderPlot({ploteou()}, height = 800, width = 1200)
     output$biv <- renderPlot({ploteob()})
