@@ -15,6 +15,11 @@ paises <- select(paises,c("nombre","continente","name"))
 paises$continente<- stri_trans_general(paises$continente,"Latin-ASCII")
 felicidad$pais <- stri_trans_general(felicidad$pais,"Latin-ASCII")
 
+#Modificamos el nombre del continente
+
+paises <- paises %>% 
+    mutate(continente = recode(continente, "Australia y Oceanía" = "Oceania"))
+
 #join de ambas bases
 x <- inner_join(felicidad, paises, by = c("pais"="nombre"))
 
@@ -31,6 +36,8 @@ colnames(x) <- c("Pais","Ano","Felicidad","PIB","Calidad soporte social","Expect
                  "de_escalera_pais_anio","Gini","gini_banco_mundial_promedio","continente","name")
 
 
+
+
 ui <- fluidPage(
 #Titulo e imagen    
     fluidRow(
@@ -40,7 +47,7 @@ ui <- fluidPage(
 #Paneles    
     tabsetPanel(
 #Panel bivariada        
-        tabPanel("Bivariada",),
+        tabPanel("Bivariada"),
 #Panel Univariada        
         tabPanel("Univariada",
                  sidebarLayout(
@@ -70,7 +77,7 @@ ui <- fluidPage(
                     sidebarPanel(
                         checkboxGroupInput("conti",
                                            "Continente",
-                                           c("Europa","Africa","America","Australia y Oceania","Asia")
+                                           c("Europa","Africa","America","Oceania","Asia")
                                            ),
                     ),
                     mainPanel(plotOutput("serplot"))     
@@ -103,13 +110,12 @@ ui <- fluidPage(
 server <- function(input, output) {
     
     output$biv <- renderPlot({
-        x %>% filter(continente=='America') %>%
+        x %>%
             group_by(Pais) %>% 
-            
-            filter(Pais==input$pais) %>% 
-            ggplot(data = x,
+            summarise(.data[[input$var]]) %>%
+            ggplot(
                aes(x = .data[[input$var]])) +
-               geom_bar()
+               geom_histogram(binwidth = 0.25)
     })
     #no logro representar mi idea, lo que busco es un grafico de barras que muestre la variable seleccionado en input$var 
     #quiero q cada barra sea un puntaje de feliciadad por ano, entonces si selecciono Felicidad y Uruguay yo visualizo un 
@@ -122,13 +128,12 @@ server <- function(input, output) {
     
     output$serplot <- renderPlot({
        
-        x %>% group_by(Ano,continente) %>% 
-            summarise(Felicidad=mean(Felicidad)) %>% 
-            filter(continente==input$conti) %>% 
-            ggplot(aes(x = Ano, y = Felicidad,group=input$conti,color=input$conti))+
+        x %>% group_by(Ano, continente) %>% 
+            summarise(Promedio_felicidad = mean(Felicidad)) %>% 
+            ggplot(aes(x = Ano, y = Promedio_felicidad, group = input$conti)) +
             geom_point() + 
-            geom_line() + 
-            labs(x = "Año", y = "Puntaje de Felicidad")
+            geom_line() +
+            labs(x = "Año", y = "Puntaje promedio de Felicidad")
         })
     
     #x %>%

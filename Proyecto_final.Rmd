@@ -41,47 +41,25 @@ Table: Descripción de variables
  Variable                      |  Descripción                                               | Tipo de variable     |  Rango de valores |
 -------------------------------| -----------------------------------------------------------|----------------------|-----------------|
 pais                           | Nombre de paises                                           | Cadena de texto | 
-año                            | Año desde 2005 hasta 2018                                  | Numérico | 2005 - 2018
-escalera_vida                  | Puntaje de felicidad                                       | Numérico | 0 - 10
-log_pib                        | Log Producto Interno Bruto                                 | Numérico | 6 - 12
-soporte_social                 | Promedio de las respuestas binarias (0 y 1): Si tuvo problemas, ¿tiene parientes en los que pueda contar para ayudarlo?| Numérico | 0 - 1
-expectativa_vida               | Las expectativas de vida saludable al nacer se basan sobre los datos extraídos de la OMS| Numérico | 30 - 80
-libertad                       | Promedio nacional de respuestas a la pregunta ¿Está satisfecho o insatisfecho con su libertad para elegir qué hacer con su vida?| Numérico | 0 - 1
-generosidad                    | La generosidad es el residuo de la regresión del promedio nacional de respuesta a la pregunta ¿Ha donado dinero a una organización benéfica en el último mes?| Numérico | -0.4 - 0.7
-Percepcion_corrupcion          | Medida del promedio nacional de las respuestas entre 0 y 1 de la pregunta ¿Está la corrupción generalizada en el gobierno?| Numérico | 0 - 1
-afecto_positivo                | Promedio de tres medidas de afecto positivo: felicidad, risa y disfrute| Numérico | 0 - 1
-afecto_negativo                | Promedio de tres medidas de afecto negativo: preocupación, tristeza y enojo| Numérico | 0 - 1
-confianza                      | Confianza en el gobierno                                   | Numérico | 0 - 1
-calidad_democracia             | Calidad de la democracia                                   | Numérico | -2.5 - 2
-calidad_entrega                | Calidad de la entrega de servicios por parte del gobierno  | Numérico | -2.5 - 2.5
-de_escalera_pais_anio          | Desviación estándar por país y año del puntaje de felicidad| Numérico | 0 - 4
-gini_banco_mundial             | Gini según el Banco Munial                                 | Numérico | 0 - 1
-gini_banco_mundial_promedio    | Promedio Gini para el período 2000-2016                    | Numérico | 0 - 1
+año                            | Año                                                        | Numérico | [2005 - 2018]
+escalera_vida                  | Puntaje de felicidad                                       | Numérico | [0 - 10]
+log_pib                        | Log Producto Interno Bruto                                 | Numérico | [6 - 12]
+soporte_social                 | Promedio de las respuestas binarias (0 y 1): Si tuvo problemas, ¿tiene parientes en los que pueda contar para ayudarlo?| Numérico | [0 - 1]
+expectativa_vida               | Las expectativas de vida saludable al nacer se basan sobre los datos extraídos de la OMS| Numérico | [30 - 80]
+libertad                       | Promedio nacional de respuestas a la pregunta ¿Está satisfecho o insatisfecho con su libertad para elegir qué hacer con su vida?| Numérico | [0 - 1]
+generosidad                    | La generosidad es el residuo de la regresión del promedio nacional de respuesta a la pregunta ¿Ha donado dinero a una organización benéfica en el último mes?| Numérico | [-0.4 - 0.7]
+Percepcion_corrupcion          | Medida del promedio nacional de las respuestas entre 0 y 1 de la pregunta ¿Está la corrupción generalizada en el gobierno?| Numérico | [0 - 1]
+afecto_positivo                | Promedio de tres medidas de afecto positivo: felicidad, risa y disfrute| Numérico | [0 - 1]
+afecto_negativo                | Promedio de tres medidas de afecto negativo: preocupación, tristeza y enojo| Numérico | [0 - 1]
+confianza                      | Confianza en el gobierno                                   | Numérico | [0 - 1]
+calidad_democracia             | Calidad de la democracia                                   | Numérico | [-2.5 - 2]
+calidad_entrega                | Calidad de la entrega de servicios por parte del gobierno  | Numérico | [-2.5 - 2.5]
+de_escalera_pais_anio          | Desviación estándar por país y año del puntaje de felicidad| Numérico | [0 - 4]
+gini_banco_mundial             | Gini según el Banco Munial                                 | Numérico | [0 - 1]
+gini_banco_mundial_promedio    | Promedio Gini para el período 2000-2016                    | Numérico | [0 - 1]
 
 
 
-\newpage
-
-```{r, echo=FALSE, results='asis'}
-Variable <- c("pais", "año", "escalera_vida", "log_pib", "soporte_social", "expectativa_vida", "libertad", "generosidad", "Percepcion_corrupcion", "afecto_positivo", "afecto_negativo", "confianza", "calidad_democracia", "calidad_entrega", "de_escalera_pais_anio", "gini_banco_mundial", "gini_banco_mundial_promedio")
-
-Descripción <- c("Nombre de paises", "Año desde 2005 hasta 2018", "Puntaje de felicidad", "Log Producto Interno Bruto", "Promedio de las respuestas a: Si tuvo 
-problemas, ¿tiene parientes con los que pueda contar para ayudarlo?", "La expectativa de vida saludable al nacer se basa en datos extraídos de la OMS", "Promedio nacional de respuestas a: ¿Está 
-satisfecho o insatisfecho con su libertad para elegir qué hacer con su vida?", "Residuo de la regresión del promedio nacional de respuestas a: ¿Ha donado dinero a una organización benéfica en el 
-último mes?", "Medida del promedio nacional de respuestas a: ¿Está la corrupción generalizada
-en el gobierno?", "Promedio de tres medidas de afecto positivo: 
-felicidad, risa y disfrute", "Promedio de tres medidas de afecto negativo: 
-preocupación, tristeza y enojo", "Confianza en el gobierno", "Calidad de la democracia", "Calidad de la entrega de servicios por parte del 
-gobierno", "Desviación estándar por país y año del puntaje de 
-felicidad", "Gini según el Banco Munial", "Promedio Gini para el período 2000-2016")
-
-tipo_variable <- c("Cadena de texto", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico","Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico", "Numérico")
-rango_valores <- c(" " , "[2005-2018]", "[0-10]",  "[6-12]", "[0-1]", "[30-80]", "[0-1]", "[-0.4-0.7]", "[0-1]", "[0-1]", "[0-1]", "[0-1]", "[-2.5-2]", "[-2.5-2.5]", "[0-4]", "[0-1]", "[0-1]")
-tabla <- data.frame(Variable, Descripción, tipo_variable, rango_valores)
-tabla%>%
-  rename("Tipo de variables" = tipo_variable, "Rango de valores" = rango_valores)%>%
- xtable(caption = "Descripción de variables") %>% print(scalebox="0.6", caption.placement = 'top',include.rownames = FALSE)
-```
 
 
 \newpage
@@ -126,21 +104,16 @@ base_felicidad <- inner_join(felicidad, paises, by = c("pais"="nombre"))
 Lo primero que nos planteamos explorar es ver como fue la variación del puntaje de felicidad para los distintos continentes y al interior de estos, a lo largo de los años. Para observarlo nos planteamos el gráfico de la figura 1, donde podemos observar que Oceanía a lo largo de los años siempre tuvo en promedio puntaje mayor a siete y Africa siempre menor a seis, gran diferencia entre estos dos continentes. 
 Si observamos la variación dentro de los continentes, podríamos decir que los paises europeos tienen una mayor variación del puntaje de felicidad y los paises de oceania una menor variación. Después de Oceania, los paises africanos son los que están más concentrados entorno al promedio del puntaje de felicidad del continente.
 
-```{r, echo = FALSE, message = FALSE, fig.cap = "En esta figura podemos observar como fue la variación a los largo de los años, el promedio puntaje de felicidad para los distintos continentes"}
-base_felicidad %>%
-          group_by(anio, continente) %>% 
-          summarise(promedio_escalera_vida = mean(escalera_vida)) %>% 
-          ggplot(aes(x = anio, y = promedio_escalera_vida)) + geom_line() + facet_wrap(vars(continente)) + labs(x = "Año", y = "Puntaje de Felicidad")
+
+
+```{r, echo = FALSE, message = FALSE, fig.cap = "Puntaje de felicidad a lo largo de los años para los distintos continentes, destacado en rojo el puntaje de felicidad promedio"}
+ base_felicidad %>%
+          group_by(anio, continente )%>%  
+          mutate(promedio_escalera_vida = mean(escalera_vida)) %>%
+          ggplot(aes(x = anio, y = escalera_vida)) + geom_line(aes(group = pais), alpha = 0.3, lwd = 0.8) + facet_wrap(~ continente) + labs(x = "Año", y = "Puntaje de Felicidad") + geom_line(aes(anio, promedio_escalera_vida), colour = "red", lwd = 1.1)
 ```
 
 
-```{r, echo = FALSE, message = FALSE, fig.cap = "Puntaje de felicidad a lo largo de los años por paises, por continente, en rojo el promedio de puntaje de felicidad por continente"}
- base_felicidad%>%
-          group_by(anio, continente)%>%  
-          mutate(promedio_escalera_vida = mean(escalera_vida))%>%
-          ggplot(aes(x = anio, y = escalera_vida)) + geom_line(aes(group = pais), alpha = 0.3, lwd=0.8) + facet_wrap(~ continente) + labs(x = "Año", y = "Puntaje de Felicidad")  + geom_line(aes(anio, promedio_escalera_vida), colour = "red", lwd=1.1)
-
-```
 \newpage
 
 A partir del gráfico anterior nos interesó saber que sucedió a lo largo de los años con algunos países de Sudamérica, y nos planteamos el gráfico de la figura 2. En este mismo, podemos observar que a lo largo de los años, estos países han tendio puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siepre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7.
@@ -175,7 +148,7 @@ ggplot(fel_pais) + geom_boxplot(aes(x = reorder(pais,escalera_vida), y = escaler
 
 En este caso, nos vamos a centrar en la variable calidad_democracia para investigar que sucede con Uruguay y la región. 
 
-En la figura siguiente, que corresponde a la figura 4, podemos observar una gran diferencia entre Argentina y Brasil y chile y Uruguay. Estos dos últimos tienen una aproximación a una distribución simétrica con valores de modo mayor a 0.5. Mientras que Argentina y Brasil tiene un modo menor 0.5. Podríamos decir que se visualiza que Uruguay y Chile tienen mejor calidad democracia que Argentina y Brasil. 
+En la figura siguiente, que corresponde a la figura 4, podemos observar una gran diferencia entre Argentina y Brasil y Chile y Uruguay. Estos dos últimos tienen una aproximación a una distribución simétrica con valores de modo mayor a 0.5. Mientras que Argentina y Brasil tiene un modo menor 0.5. Podríamos decir que se visualiza que Uruguay y Chile tienen mejor calidad democracia que Argentina y Brasil. 
 
 ```{r, echo = FALSE, message = FALSE, fig.width=7, fig.height=3.5, fig.cap = "En esta figura podemos observar un grafico de densidad para la variable calidad_democracia, para los países Uruguay, Argentina, Brasil y Chile."}
 base_felicidad %>% 
