@@ -116,7 +116,7 @@ Si observamos la variación dentro de los continentes, podríamos decir que los 
 
 \newpage
 
-A partir del gráfico anterior nos interesó saber que sucedió a lo largo de los años con algunos países de Sudamérica, y nos planteamos el gráfico de la figura 2. En este mismo, podemos observar que a lo largo de los años, estos países han tendio puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siepre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7.
+A partir del gráfico anterior nos interesó saber que sucedió a lo largo de los años con algunos países de Sudamérica, y nos planteamos el gráfico de la figura 2. En este mismo, podemos observar que a lo largo de los años, estos países han tenido puntajes de felicidad que han ido creciendo y decreciendo; no ha sido siempre creciente. Podemos ver el caso de Venezuela que a partir del año 2012 hasta el 2016 pasó de tener un puntaje aproximadamente de 7 a 4 en cuatro años, un gran decrecimiento en el puntaje de felicidad, sin embargo luego de 2016 se puede observar que hubo un crecimiento en el mismo. Podemos ver el caso de Colombia que su puntaje de felicidad siempre estuvo entre 5.5 y 7.
 
 
 ```{r, echo = FALSE, message = FALSE, fig.cap = "Puntaje de felicidad a lo largo de los años para algunos países de Sudamérica."}
@@ -148,7 +148,7 @@ ggplot(fel_pais) + geom_boxplot(aes(x = reorder(pais,escalera_vida), y = escaler
 
 En este caso, nos vamos a centrar en la variable calidad_democracia para investigar que sucede con Uruguay y la región. 
 
-En la figura siguiente, que corresponde a la figura 4, podemos observar una gran diferencia entre Argentina y Brasil y Chile y Uruguay. Estos dos últimos tienen una aproximación a una distribución simétrica con valores de modo mayor a 0.5. Mientras que Argentina y Brasil tiene un modo menor 0.5. Podríamos decir que se visualiza que Uruguay y Chile tienen mejor calidad democracia que Argentina y Brasil. 
+En la figura siguiente, que corresponde a la figura 4, podemos observar una gran diferencia entre Argentina y Brasil, y Chile y Uruguay. Estos dos últimos tienen una aproximación a una distribución simétrica con valores de modo mayor a 0.5. Mientras que Argentina y Brasil tiene un modo menor 0.5. Podríamos decir que se visualiza que Uruguay y Chile tienen mejor calidad democracia que Argentina y Brasil. 
 
 ```{r, echo = FALSE, message = FALSE, fig.width=7, fig.height=3.5, fig.cap = "En esta figura podemos observar un grafico de densidad para la variable calidad_democracia, para los países Uruguay, Argentina, Brasil y Chile."}
 base_felicidad %>% 
@@ -165,7 +165,8 @@ A continuación, vamos a analizar cuales son los 6 paises que tienen el promedio
 mean_negativo <- base_felicidad %>%
       group_by(pais) %>% 
       summarise(mean_afecto_negativo = mean(afecto_negativo, na.rm = TRUE)) %>% 
-      arrange(desc(mean_afecto_negativo))
+      arrange(desc(mean_afecto_negativo))%>%
+  rename("Promedio afecto negativo" = mean_afecto_negativo)
 ```
 
 ```{r, echo = FALSE, message = FALSE, results = 'asis'}
@@ -181,14 +182,15 @@ En este caso podemos observar que el país que tiene el promedio más alto de af
 mean_positivo <- base_felicidad %>%
       group_by(pais) %>% 
       summarise(mean_afecto_positivo = mean(afecto_positivo, na.rm = TRUE)) %>% 
-      arrange(desc(mean_afecto_positivo))
+      arrange(desc(mean_afecto_positivo))%>%
+   rename("Promedio afecto positivo" = mean_afecto_positivo)
 ```
 
 ```{r, echo = FALSE, message = FALSE, results = 'asis'}
 xtable(head(mean_positivo), caption = "Top 6 de países con mayor promedio de afecto positivo")
 ```
 
-De acuerdo al cuadro anterioir, podemos visualizar que el promedio más alto de afecto positivo es Islandia.
+De acuerdo al cuadro anterioir, podemos visualizar que el promedio más alto de afecto positivo se da en Islandia.
 
 Por otro lado, nos interesa saber cual es la relacion que existe entre las variables Felicidad y PBI. Para estudiar dicha relacion seleccionamos todos los paises del conjunto de datos para el año 2010 y coloreamos cada pais segun su continente; de acuerdo a esta última figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad; a mayor PIB, mayor puntaje de felicidad, a su vez se puede observar distintos grupos, podemos decir que hay un grupo de puntos de paises Africanos en la parte baja e izquierda del grafico, luego otro gran grupo de puntos en el medio del grafico que incluye la mayoria de los paises de America y Asia y parte de paises de Europa y Oceania mientras que en la parte alta y derecha se agrupan varios paises Europeos y Asiaticos.
 
