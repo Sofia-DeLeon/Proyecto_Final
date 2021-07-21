@@ -122,9 +122,9 @@ ui <- fluidPage(
         tabPanel("Serie temporal",
                 sidebarLayout(
                     sidebarPanel(
-                        checkboxGroupInput("conti",
+                        selectInput("conti",
                                            "Continente",
-                                           c("Europa","Africa","America","Oceania","Asia")
+                                           c("Europa","Africa","America","Australia y Oceania","Asia")
                                            ),
                     ),
                     mainPanel(plotOutput("serplot"))     
@@ -332,11 +332,13 @@ server <- function(input, output) {
     
     output$serplot <- renderPlot({
        
-        x %>% group_by(Ano, continente) %>% 
+        x %>% 
+            group_by(Ano, continente) %>% 
             summarise(Promedio_felicidad = mean(Felicidad)) %>% 
-            ggplot(aes(x = Ano, y = Promedio_felicidad, group = input$conti)) +
-            geom_point() + 
-            geom_line() +
+            filter(continente == input$conti)%>%
+            ggplot(aes(x = Ano, y = Promedio_felicidad)) +
+            geom_point(colour = "red", size = 4) +
+            geom_line(lwd=1) + 
             labs(x = "Año", y = "Puntaje promedio de Felicidad")
         })
     
