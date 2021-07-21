@@ -2,6 +2,7 @@ library(shiny)
 library(tidyverse)
 library(stringi)
 library(maps)
+library(DT)
 
 
 #Carga de datos
