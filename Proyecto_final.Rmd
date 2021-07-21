@@ -1,7 +1,7 @@
 ---
 title: "Proyecto_Final"
 author: "Sofia De León, Ignacio Campón, Jonathan Pirez, María de Freitas"
-date: "28/6/2021"
+date: "21/7/2021"
 output: pdf_document
 urlcolor : blue
 lang : es
@@ -192,7 +192,7 @@ xtable(head(mean_positivo), caption = "Top 6 de países con mayor promedio de af
 
 De acuerdo al cuadro anterioir, podemos visualizar que el promedio más alto de afecto positivo se da en Islandia.
 
-Por otro lado, nos interesa saber cual es la relacion que existe entre las variables Felicidad y PBI. Para estudiar dicha relacion seleccionamos todos los paises del conjunto de datos para el año 2010 y coloreamos cada pais segun su continente; de acuerdo a esta última figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad; a mayor PIB, mayor puntaje de felicidad, a su vez se puede observar distintos grupos, podemos decir que hay un grupo de puntos de paises Africanos en la parte baja e izquierda del grafico, luego otro gran grupo de puntos en el medio del grafico que incluye la mayoria de los paises de America y Asia y parte de paises de Europa y Oceania mientras que en la parte alta y derecha se agrupan varios paises Europeos y Asiaticos.
+Por otro lado, nos interesa saber cual es la relacion que existe entre las variables Felicidad y PBI. Para estudiar dicha relacion seleccionamos todos los paises del conjunto de datos para el año 2010 y coloreamos cada pais segun su continente; de acuerdo a esta última figura observamos que hay una relación positiva pero débil, entre el PIB y el puntaje de felicidad; a mayor PIB, mayor puntaje de felicidad. A su vez se puede observar distintos grupos, podemos decir que hay un grupo de puntos de paises Africanos en la parte baja e izquierda del grafico, luego otro gran grupo de puntos en el medio del grafico que incluye la mayoria de los paises de America y Asia y parte de paises de Europa y Oceania mientras que en la parte alta y derecha se agrupan varios paises Europeos y Asiaticos.
 
 ```{r, echo = FALSE, message = FALSE, include=FALSE}
 fel_pais2 <- base_felicidad %>% 
@@ -215,15 +215,19 @@ ggplot(fel_pais2) + geom_point(aes(x = log_pib, y = escalera_vida, color = conti
 
 Respecto al diseño de nuestra aplicacion, optamos por estructurarla por paneles que representan las siguientes distribuciones:
 Bivariado, Univariado, Serie Temporal y Mapa.
-Optamos por ultilizar un grafico de dispersion para representar la distribucion Bivariada de dos variables a eleccion a lo largo de los años (2005-2018).
-Utilizamos un grafico de cajas (boxplot) para representar la distribucion Univariada de una variable de interes cualquiera segun continente, cada caja representa un pais distinto.
-Construimos una tabla para reflejar los valores precisos de la media de Felicidad y Expectativa de vida asi como su minimo y maximo valor, para las observaciones que se elgian entre Pais, Año o Continente.
+Optamos por ultilizar un gráfico de dispersion para representar la distribución Bivariada de dos variables a eleccion a lo largo de los años (2005-2018).
+Utilizamos un gráfico de cajas (boxplot) para representar la distribucion Univariada de una variable de interés segun continente, cada caja representa un pais distinto.
+Construimos una tabla para reflejar los valores precisos de la media de Felicidad y Expectativa de vida asi como su mínimo y máximo valor, para las observaciones que se elgian entre Pais, Año o Continente.
 En el panel de Serie Temporal podemos visualizar el puntaje promedio de Felicidad al correr de los años segun el continente que se quiera.
-Por ultimo en el panel de Mapa nuestro fue objetivo fue reflejar una variable de interes deseada en el planisferio y ver dicha variable seleccionada en los paises del mapa segun un gradiente de color.
+Por último, en el panel de Mapa, nuestro objetivo fue reflejar una variable de interés deseada en el planisferio y ver dicha variable seleccionada, en los paises del mapa segun un gradiente de color.
 
-Buscamos que el usuario que interactue con nuestra aplicacion pueda aprender, informarse e incluso ser utilizada como una fuente de informacion; los datos sobre felicidad y otras variables macroeconomicas pueden ser muy utiles para el estudio y desarrollo de otros proyectos relacionados.
+Buscamos que el usuario que interactúe con nuestra aplicación pueda aprender, informarse e incluso ser utilizada como una fuente de información; los datos sobre felicidad y otras variables macroeconómicas pueden ser muy útiles para el estudio y desarrollo de otros proyectos relacionados.
+
+[Aplicación desarrollada](https://campon.shinyapps.io/Aplicacion_Felicidad/)
 
 # Comentarios finales
 
-En conclusion pudimos desarrollar un proyecto muy interesante en el cual aprendimos, desde como trabajar con shiny, profundizar en conceptos de tidyverse, ggplot hasta como trabajar colaborativamente y simultaneamente en un mismo proyecto.
-Logramos
+En cuánto a los resultados obtenidos, podemos decir que el nivel de felicidad en términos generales no tiene una tendencia de crecimiento o descenso en todo el período sino que presenta variaciones, sin embargo observamos que el continente Oceanía se destaca con un nivel de felicidad alto y muy apróximado a ser estable en todo el período. 
+
+
+Para finalizar, consideramos que pudimos desarrollar un proyecto muy interesante en el cual aprendimos, desde como trabajar con Shiny, profundizar en conceptos de tidyverse, ggplot hasta como trabajar colaborativamente y simultáneamente en un mismo proyecto, aspectos que sin duda nos enriquecieron para nuestra formación.
