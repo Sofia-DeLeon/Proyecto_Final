@@ -213,10 +213,15 @@ ggplot(fel_pais2) + geom_point(aes(x = log_pib, y = escalera_vida, color = conti
 
 Respecto al diseño de nuestra aplicacion, optamos por estructurarla por paneles que representan las siguientes distribuciones:
 Bivariado, Univariado, Serie Temporal y Mapa.
+Optamos por ultilizar un grafico de dispersion para representar la distribucion Bivariada de dos variables a eleccion a lo largo de los años (2005-2018).
+Utilizamos un grafico de cajas (boxplot) para representar la distribucion Univariada de una variable de interes cualquiera segun continente, cada caja representa un pais distinto.
+Construimos una tabla para reflejar los valores precisos de la media de Felicidad y Expectativa de vida asi como su minimo y maximo valor, para las observaciones que se elgian entre Pais, Año o Continente.
+En el panel de Serie Temporal podemos visualizar el puntaje promedio de Felicidad al correr de los años segun el continente que se quiera.
+Por ultimo en el panel de Mapa nuestro fue objetivo fue reflejar una variable de interes deseada en el planisferio y ver dicha variable seleccionada en los paises del mapa segun un gradiente de color.
 
-
-
+Buscamos que el usuario que interactue con nuestra aplicacion pueda aprender, informarse e incluso ser utilizada como una fuente de informacion; los datos sobre felicidad y otras variables macroeconomicas pueden ser muy utiles para el estudio y desarrollo de otros proyectos relacionados.
 
 # Comentarios finales
 
-
+En conclusion pudimos desarrollar un proyecto muy interesante en el cual aprendimos, desde como trabajar con shiny, profundizar en conceptos de tidyverse, ggplot hasta como trabajar colaborativamente y simultaneamente en un mismo proyecto.
+Logramos
