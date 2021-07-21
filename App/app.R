@@ -344,7 +344,7 @@ server <- function(input, output) {
                       max_Felicidad = round(max(Felicidad),3),
                       min_Felicidad = round(min(Felicidad),3),
                       mean_Expectativa = round(mean(Expectativa_de_vida),3)) %>% 
-            summarise(across(.cols = where(is.numeric), .fns = round, digits = as.integer(input$digitos)))
+            mutate(across(.cols = where(is.numeric), .fns = round, digits = as.integer(input$digitos)))
     })
     
     output$tab1 <- renderDT({
