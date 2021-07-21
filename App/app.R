@@ -19,7 +19,7 @@ felicidad$pais <- stri_trans_general(felicidad$pais,"Latin-ASCII")
 #Modificamos el nombre del continente
 
 paises <- paises %>% 
-    mutate(continente = recode(continente, "Australia y Oceanía" = "Oceania"))
+    mutate(continente = recode(continente, "Australia y Oceania" = "Oceania"))
 
 #join de ambas bases
 x <- inner_join(felicidad, paises, by = c("pais"="nombre"))
@@ -124,7 +124,7 @@ ui <- fluidPage(
                     sidebarPanel(
                         selectInput("conti",
                                            "Continente",
-                                           c("Europa","Africa","America","Australia y Oceania","Asia")
+                                           c("Europa","Africa","America","Oceania","Asia")
                                            ),
                     ),
                     mainPanel(plotOutput("serplot"))     
@@ -300,7 +300,7 @@ server <- function(input, output) {
                 theme(aspect.ratio = 0.5)
             print(gg)
         }else{
-            box <- x %>% filter(continente=="Australia y Oceania") 
+            box <- x %>% filter(continente=="Oceania") 
             gg <- box %>%
                 ggplot() +
                 geom_boxplot(data=box,aes(x =reorder(box$Pais,.data[[input$var]]), y = .data[[input$var]]))+
