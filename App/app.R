@@ -31,7 +31,7 @@ America <- c("Uruguay", "Argentina", "Chile", "Brazil", "Ecuador", "Bolivia", "P
 #Renombarmos las variables del conjunto de datos
 
 
-colnames(x) <- c("Pais","Ano","Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+colnames(x) <- c("Pais","Ano","Felicidad","PIB","Calidad soporte social","Expectativa_de_vida","Libertad","Generosidad","Corrupción",
                  "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
                  "de_escalera_pais_anio","Gini","gini_banco_mundial_promedio","continente","name")
 
@@ -46,6 +46,12 @@ mapa_mundo <- map_data("world")
 
 mapa_felicidad <- left_join(mapa_mundo, mapa, by = "region")
 
+colnames(mapa_felicidad) <- c("long",                        "lat",                         "group",                       "order",                      
+                               "region",                      "subregion",                   "Ano",                        "Felicidad",              
+                               "PIB",                     "soporte_social",              "Expectativa_de_vida",            "libertad",                   
+                               "generosidad",                 "percepcion_corrupcion",       "afecto_positivo",             "afecto_negativo",            
+                               "confianza",                   "calidad_democracia",          "calidad_entrega",             "de_escalera_pais_anio",      
+                               "gini_banco_mundial",          "gini_banco_mundial_promedio", "nombre",                      "continente")
 
 ui <- fluidPage(
 #Titulo e imagen    
@@ -62,12 +68,12 @@ ui <- fluidPage(
                      sidebarPanel(
                          selectInput("varx",
                                      "Variable X",
-                                     c("Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                     c("Felicidad","PIB","Calidad soporte social","Expectativa_de_vida","Libertad","Generosidad","Corrupción",
                                        "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
                                        "de_escalera_pais_anio","Gini")),
                          selectInput("vary",
                                      "Variable Y",
-                                     c("PIB","Felicidad","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                     c("PIB","Felicidad","Calidad soporte social","Expectativa_de_vida","Libertad","Generosidad","Corrupción",
                                        "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
                                        "de_escalera_pais_anio","Gini")),
                          selectInput("anio",
@@ -75,7 +81,7 @@ ui <- fluidPage(
                                      c(2018:2005)
                          ),
                      ),
-                     mainPanel(plotOutput("biv")
+                     mainPanel(plotOutput("biv", width = "100%")
                      )     
                  )
                  ),
@@ -86,7 +92,7 @@ ui <- fluidPage(
                      sidebarPanel(
                          selectInput("var",
                                      "Variable de interes",
-                                     c("Felicidad","PIB","Calidad soporte social","Expectativa de vida","Libertad","Generosidad","Corrupción",
+                                     c("Felicidad","PIB","Calidad soporte social","Expectativa_de_vida","Libertad","Generosidad","Corrupción",
                                        "Afecto Positivo","Afecto Negativo","Confianza en el gobierno","Calidad de la democracia","Calidad Servicios",
                                        "de_escalera_pais_anio","Gini")),
                          selectInput("contiu",
@@ -100,7 +106,17 @@ ui <- fluidPage(
                  )
         ),
 #Panel de tabla
-        tabPanel("Tabla"),
+        tabPanel("Tabla",
+               sidebarLayout(
+                    sidebarPanel(
+                        selectInput('varcolor', 'Variable de interes', 
+                                  c("Pais", "Ano", "continente")),
+                    selectInput("digitos", "Elegir decimales", 
+                             c(0, 1, 2))
+                    ),
+               mainPanel(DTOutput("tab1")),
+               )
+        ),
 #Panel de serie temporal
         tabPanel("Serie temporal",
                 sidebarLayout(
@@ -119,7 +135,8 @@ ui <- fluidPage(
                      sidebarPanel(
                          selectInput("var",
                                      "Variable de interes",
-                                     c("escalera_vida","soporte_social","expectativa_vida","libertad","generosidad","percepcion_corrupcion","confianza","calidad_democracia","gini_banco_mundial")
+                                     c("Felicidad","soporte_social","Expectativa_de_vida","libertad","generosidad","percepcion_corrupcion",
+                                       "confianza","calidad_democracia","gini_banco_mundial")
                          )
                      ),
                      mainPanel(plotOutput("mapplot"))     
@@ -295,6 +312,21 @@ server <- function(input, output) {
         })
     
     
+#Tabla
+    tabla <- reactive({
+        x %>%
+            group_by(.data[[input$varcolor]]) %>%
+            summarise(mean_Felicidad = round(mean(Felicidad),3),
+                      max_Felicidad = round(max(Felicidad),3),
+                      min_Felicidad = round(min(Felicidad),3),
+                      mean_Expectativa = round(mean(Expectativa_de_vida),3)) %>% 
+            summarise(across(.cols = where(is.numeric), .fns = round, digits = as.integer(input$digitos)))
+    })
+    
+    output$tab1 <- renderDT({
+        tabla()
+    })
+    
     
     
     output$serplot <- renderPlot({
@@ -308,6 +340,7 @@ server <- function(input, output) {
         })
     
     
+    
     output$mapplot <- renderPlot({
         
         ggplot(mapa_felicidad, aes(long, lat, group = group))+
@@ -317,7 +350,7 @@ server <- function(input, output) {
     })
     
     output$Uni <- renderPlot({ploteou()}, height = 800, width = 1200)
-    output$biv <- renderPlot({ploteob()},height = 600, width = 1000)
+    output$biv <- renderPlot({ploteob()}, height = 600, width = 1000)
     
 }
 
