@@ -1,5 +1,5 @@
 # Proyecto_Final
-A continuación est el link para acceder a nuestra aplicacion subida en shinyapp.io :
+A continuación esta el link para acceder a nuestra aplicacion subida en shinyapp.io :
 https://campon.shinyapps.io/Aplicacion_Felicidad/
 No tenemos ningun paso previo especifico para reproducir nuestro proyecto sin ser
 contar con las librerias que utiizamos ya instaladas previamente, las cuales son:
